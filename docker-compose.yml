@@ -1,0 +1,21 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: vidya-postgres
+    environment:
+      POSTGRES_DB: vidyadb
+      POSTGRES_USER: ${DB_USERNAME:-vidya}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-vidya}
+    ports:
+      - "5432:5432"
+    volumes:
+      - vidya_postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U ${DB_USERNAME:-vidya} -d vidyadb" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  vidya_postgres_data:
+

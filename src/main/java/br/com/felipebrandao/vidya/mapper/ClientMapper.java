@@ -1,8 +1,8 @@
 package br.com.felipebrandao.vidya.mapper;
 
-import br.com.felipebrandao.vidya.dto.request.ClienteRequest;
-import br.com.felipebrandao.vidya.dto.response.ClienteResponse;
-import br.com.felipebrandao.vidya.entity.Cliente;
+import br.com.felipebrandao.vidya.dto.request.ClientRequest;
+import br.com.felipebrandao.vidya.dto.response.ClientResponse;
+import br.com.felipebrandao.vidya.entity.Client;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;
@@ -10,17 +10,17 @@ import org.mapstruct.MappingConstants;
 import java.util.List;
 
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
-public interface ClienteMapper {
+public interface ClientMapper {
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "codSankhya", ignore = true)
     @Mapping(target = "createdAt", ignore = true)
     @Mapping(target = "updatedAt", ignore = true)
-    Cliente toEntity(ClienteRequest request);
+    Client toEntity(ClientRequest request);
 
-    ClienteResponse toResponse(Cliente entity);
+    ClientResponse toResponse(Client entity);
 
-    List<ClienteResponse> toResponseList(List<Cliente> entities);
+    List<ClientResponse> toResponseList(List<Client> entities);
 }
 
 

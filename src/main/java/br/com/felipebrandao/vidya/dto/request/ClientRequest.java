@@ -1,11 +1,11 @@
 package br.com.felipebrandao.vidya.dto.request;
 
+import br.com.felipebrandao.vidya.entity.PersonType;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
-public record ClienteRequest(
+public record ClientRequest(
 
         @NotBlank(message = "Descrição é obrigatória")
         @Size(max = 255)
@@ -26,9 +26,8 @@ public record ClienteRequest(
         @NotNull(message = "Código da cidade é obrigatório")
         Integer codcid,
 
-        @NotBlank(message = "Tipo de pessoa é obrigatório")
-        @Pattern(regexp = "[FJ]", message = "Tipo de pessoa deve ser 'F' (Física) ou 'J' (Jurídica)")
-        String tipPessoa,
+        @NotNull(message = "Tipo de pessoa é obrigatório")
+        PersonType tipPessoa,
 
         @NotBlank(message = "Classificação de ICMS é obrigatória")
         @Size(max = 10)

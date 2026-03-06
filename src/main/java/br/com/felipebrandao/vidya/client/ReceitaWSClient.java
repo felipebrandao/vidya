@@ -9,6 +9,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 public interface ReceitaWSClient {
 
     @GetMapping("/cnpj/{cnpj}")
-    ReceitaWSResponse consultarCnpj(@PathVariable("cnpj") String cnpj);
+    ReceitaWSResponse lookupCnpj(@PathVariable("cnpj") String cnpj);
 }
 

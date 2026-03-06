@@ -23,7 +23,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Cidade {
+public class City {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

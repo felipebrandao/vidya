@@ -1,6 +1,5 @@
 package br.com.felipebrandao.vidya.security;
 
-import br.com.felipebrandao.vidya.repository.UserRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

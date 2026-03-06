@@ -2,6 +2,8 @@ package br.com.felipebrandao.vidya.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -13,6 +15,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 import java.time.LocalDateTime;
 
@@ -23,43 +27,35 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Cliente {
+public class Client {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    /** Descrição / Nome do campo na API Sankhya */
     @Column(nullable = false, length = 255)
     private String nome;
 
-    /** CNPJ ou CPF (CGC_CPF) */
-    @Column(name = "cgc_cpf", nullable = false, length = 20)
+    @Column(name = "cgc_cpf", length = 20)
     private String cgcCpf;
 
-    /** Nome do Parceiro (NOMEPARC) */
     @Column(nullable = false, length = 255)
     private String nomeparc;
 
-    /** Razão Social (RAZAOSOCIAL) */
-    @Column(name = "razao_social", nullable = false, length = 255)
+    @Column(name = "razao_social", length = 255)
     private String razaoSocial;
 
-    /** Código da cidade no Sankhya (CODCID) */
     @Column(nullable = false)
     private Integer codcid;
 
-    /**
-     * Tipo de Pessoa (TIPPESSOA): 'F' = Física, 'J' = Jurídica
-     */
-    @Column(name = "tip_pessoa", nullable = false, length = 1)
-    private String tipPessoa;
+    @Enumerated(EnumType.STRING)
+    @JdbcTypeCode(SqlTypes.VARCHAR)
+    @Column(name = "tip_pessoa", nullable = false)
+    private PersonType tipPessoa;
 
-    /** Classificação de ICMS (CLASSIFICMS) */
-    @Column(name = "classific_ms", nullable = false, length = 10)
+    @Column(name = "classific_ms", length = 10)
     private String classificMs;
 
-    /** Código retornado pelo ERP Sankhya após criação do parceiro */
     @Column(name = "cod_sankhya")
     private Integer codSankhya;
 

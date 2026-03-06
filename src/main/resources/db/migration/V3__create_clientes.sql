@@ -3,12 +3,12 @@
 CREATE TABLE IF NOT EXISTS clientes (
     id              BIGSERIAL       PRIMARY KEY,
     nome            VARCHAR(255)    NOT NULL,
-    cgc_cpf         VARCHAR(20)     NOT NULL,
+    cgc_cpf         VARCHAR(20),
     nomeparc        VARCHAR(255)    NOT NULL,
-    razao_social    VARCHAR(255)    NOT NULL,
+    razao_social    VARCHAR(255),
     codcid          INTEGER         NOT NULL,
     tip_pessoa      VARCHAR(1)      NOT NULL CHECK (tip_pessoa IN ('F', 'J')),
-    classific_ms    VARCHAR(10)     NOT NULL,
+    classific_ms    VARCHAR(10),
     cod_sankhya     INTEGER,
     created_at      TIMESTAMP       NOT NULL DEFAULT NOW(),
     updated_at      TIMESTAMP       NOT NULL DEFAULT NOW()
