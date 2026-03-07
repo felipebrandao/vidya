@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicReference;
 
 @Slf4j
 @Service
@@ -20,19 +21,25 @@ public class SankhyaAuthService {
     private final SankhyaClient sankhyaClient;
     private final SankhyaProperties sankhyaProperties;
 
-    private String jsessionid;
+    private final AtomicReference<String> jsessionid = new AtomicReference<>();
 
     public String getSessionCookie() {
-        if (jsessionid == null) {
-            login();
+        if (jsessionid.get() == null) {
+            synchronized (this) {
+                if (jsessionid.get() == null) login();
+            }
         }
-        return "JSESSIONID=" + jsessionid;
+        return "JSESSIONID=" + jsessionid.get();
     }
 
     public String renewSessionCookie() {
         log.info("Renovando sessão Sankhya...");
-        jsessionid = null;
+        jsessionid.set(null);
         return getSessionCookie();
+    }
+
+    public void resetSession() {
+        jsessionid.set(null);
     }
 
     private void login() {
@@ -46,12 +53,13 @@ public class SankhyaAuthService {
 
             Response response = sankhyaClient.login(loginRequest);
 
-            jsessionid = extractJsessionid(response.headers());
+            String extractedId = extractJsessionid(response.headers());
 
-            if (jsessionid == null) {
+            if (extractedId == null) {
                 throw new IntegrationException("Login no Sankhya não retornou jsessionid");
             }
 
+            jsessionid.set(extractedId);
             log.info("Login no Sankhya realizado com sucesso");
 
         } catch (IntegrationException e) {

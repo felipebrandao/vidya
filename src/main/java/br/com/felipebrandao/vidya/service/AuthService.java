@@ -4,6 +4,8 @@ import br.com.felipebrandao.vidya.dto.request.LoginRequest;
 import br.com.felipebrandao.vidya.dto.request.RegisterRequest;
 import br.com.felipebrandao.vidya.dto.response.AuthResponse;
 import br.com.felipebrandao.vidya.entity.User;
+import br.com.felipebrandao.vidya.exception.DuplicateResourceException;
+import br.com.felipebrandao.vidya.exception.ResourceNotFoundException;
 import br.com.felipebrandao.vidya.repository.UserRepository;
 import br.com.felipebrandao.vidya.security.JwtService;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +25,7 @@ public class AuthService {
 
     public AuthResponse register(RegisterRequest request) {
         if (userRepository.existsByUsername(request.username())) {
-            throw new IllegalArgumentException("Username já está em uso: " + request.username());
+            throw new DuplicateResourceException("Username já está em uso: " + request.username());
         }
 
         User user = User.builder()
@@ -35,7 +37,7 @@ public class AuthService {
 
         String token = jwtService.generateToken(user.getUsername());
 
-        return new AuthResponse(token, user.getUsername(), jwtService.getExpiration());
+        return new AuthResponse(token, user.getUsername(), jwtService.getExpirationInstant());
     }
 
     public AuthResponse login(LoginRequest request) {
@@ -44,11 +46,11 @@ public class AuthService {
         );
 
         User user = userRepository.findByUsername(request.username())
-                .orElseThrow(() -> new IllegalArgumentException("Usuário não encontrado"));
+                .orElseThrow(() -> new ResourceNotFoundException("Usuário não encontrado"));
 
         String token = jwtService.generateToken(user.getUsername());
 
-        return new AuthResponse(token, user.getUsername(), jwtService.getExpiration());
+        return new AuthResponse(token, user.getUsername(), jwtService.getExpirationInstant());
     }
 }
 

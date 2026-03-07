@@ -1,0 +1,1 @@
+{"serviceName":"CRUDServiceProvider.loadRecords","status":"1","responseBody":{"entities":{"total":"2","hasMoreResult":"true","offsetPage":"0","entity":[{"f0":{"$":"7001"},"f1":{"$":"Sao Paulo"},"f3":{"$":"SP"}}]}}}

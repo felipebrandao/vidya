@@ -12,6 +12,7 @@ import br.com.felipebrandao.vidya.dto.sankhya.SankhyaResponse;
 import br.com.felipebrandao.vidya.dto.sankhya.SankhyaSaveResponse;
 import br.com.felipebrandao.vidya.entity.Client;
 import br.com.felipebrandao.vidya.entity.PersonType;
+import br.com.felipebrandao.vidya.exception.DuplicateResourceException;
 import br.com.felipebrandao.vidya.exception.IntegrationException;
 import br.com.felipebrandao.vidya.mapper.ClientMapper;
 import br.com.felipebrandao.vidya.repository.ClientRepository;
@@ -66,7 +67,7 @@ public class ClientService {
 
         if (clientRepository.existsByCgcCpf(request.cgcCpf())) {
             log.warn("Cliente com CNPJ/CPF {} já existe na base local", request.cgcCpf());
-            throw new IllegalArgumentException("Cliente com CNPJ/CPF " + request.cgcCpf() + " já está cadastrado");
+            throw new DuplicateResourceException("Cliente", "CNPJ/CPF", request.cgcCpf());
         }
 
         Client client = clientMapper.toEntity(request);
@@ -86,7 +87,7 @@ public class ClientService {
             if (!response.isSuccess()) {
                 log.warn("Sankhya recusou o cadastro do cliente id={}: {}", saved.getId(), response.errorMessage());
                 clientRepository.delete(saved);
-                throw new IllegalArgumentException(response.errorMessage());
+                throw new IntegrationException("Sankhya recusou o cadastro: " + response.errorMessage());
             }
 
             Integer codParc = extractPartnerCode(response);
@@ -96,10 +97,12 @@ public class ClientService {
                 log.info("Cliente id={} atualizado com CODPARC={} do Sankhya", saved.getId(), codParc);
             }
 
-        } catch (IllegalArgumentException e) {
-            throw e;
         } catch (IntegrationException e) {
+            throw e;
+        } catch (Exception e) {
             log.error("Falha na integração Sankhya para cliente id={}: {}", saved.getId(), e.getMessage());
+            clientRepository.delete(saved);
+            throw new IntegrationException("Falha na comunicação com o Sankhya", e);
         }
 
         return clientMapper.toResponse(saved);

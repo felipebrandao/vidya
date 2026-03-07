@@ -1,0 +1,25 @@
+{
+  "status": "OK",
+  "cnpj": "07893870000186",
+  "nome": "EMPRESA TESTE LTDA",
+  "fantasia": "TESTE",
+  "abertura": "01/01/2000",
+  "situacao": "ATIVA",
+  "tipo": "MATRIZ",
+  "porte": "MICRO EMPRESA",
+  "logradouro": "RUA TESTE",
+  "numero": "100",
+  "complemento": "",
+  "cep": "50000-000",
+  "bairro": "CENTRO",
+  "municipio": "RECIFE",
+  "uf": "PE",
+  "email": "teste@teste.com",
+  "telefone": "(81) 3333-4444",
+  "natureza_juridica": "206-2 - Sociedade Empresária Limitada",
+  "capital_social": "10000.00",
+  "atividade_principal": [{ "code": "62.01-5-01", "text": "Desenvolvimento de programas de computador sob encomenda" }],
+  "atividades_secundarias": [],
+  "qsa": []
+}
+

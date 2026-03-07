@@ -1,0 +1,15 @@
+{
+  "serviceName": "CRUDServiceProvider.saveRecord",
+  "status": "1",
+  "responseBody": {
+    "entities": {
+      "total": "1",
+      "entity": {
+        "CODPARC": { "$": "2001" },
+        "NOMEPARC": { "$": "Novo Cliente Ltda" },
+        "CGC_CPF": { "$": "99.888.777/0001-66" }
+      }
+    }
+  }
+}
+

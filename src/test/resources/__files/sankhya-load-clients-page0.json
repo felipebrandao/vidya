@@ -1,0 +1,1 @@
+{"serviceName":"CRUDServiceProvider.loadRecords","status":"1","responseBody":{"entities":{"total":"2","hasMoreResult":"true","offsetPage":"0","entity":[{"f0":{"$":"8001"},"f1":{"$":"11.111.111/0001-11"},"f2":{"$":"Cliente Pagina Zero"},"f3":{"$":"Razao Social Pagina Zero"},"f4":{"$":"J"},"f5":{"$":"A1"},"f6":{"$":"1234"}}]}}}
