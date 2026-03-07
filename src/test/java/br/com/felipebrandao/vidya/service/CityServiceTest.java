@@ -55,8 +55,8 @@ class CityServiceTest {
         SankhyaField nomeCid  = new SankhyaField("São Paulo");
         SankhyaField estadoUF = new SankhyaField("SP");
 
-        SankhyaResponse.EntityRecord record = new SankhyaResponse.EntityRecord(codcid, nomeCid, null, estadoUF, null, null, null);
-        SankhyaResponse.Entities entities = new SankhyaResponse.Entities("1", "false", "0", List.of(record));
+        SankhyaResponse.EntityRecord entityRecord = new SankhyaResponse.EntityRecord(codcid, nomeCid, null, estadoUF, null, null, null);
+        SankhyaResponse.Entities entities = new SankhyaResponse.Entities("1", "false", "0", List.of(entityRecord));
         SankhyaResponse sankhyaResponse = new SankhyaResponse("loadRecords", "1",
                 new SankhyaResponse.ResponseBody(entities));
 
@@ -118,10 +118,10 @@ class CityServiceTest {
         SankhyaField cod      = new SankhyaField("5");
         SankhyaField nom      = new SankhyaField("Recife");
         SankhyaField estadoUF = new SankhyaField("PE");
-        SankhyaResponse.EntityRecord record = new SankhyaResponse.EntityRecord(cod, nom, null, estadoUF, null, null, null);
+        SankhyaResponse.EntityRecord entityRecord = new SankhyaResponse.EntityRecord(cod, nom, null, estadoUF, null, null, null);
         SankhyaResponse successResponse = new SankhyaResponse("loadRecords", "1",
                 new SankhyaResponse.ResponseBody(
-                        new SankhyaResponse.Entities("1", "false", "0", List.of(record))));
+                        new SankhyaResponse.Entities("1", "false", "0", List.of(entityRecord))));
 
         when(sankhyaAuthService.getSessionCookie()).thenReturn("JSESSIONID=expired");
         when(sankhyaAuthService.renewSessionCookie()).thenReturn("JSESSIONID=new");

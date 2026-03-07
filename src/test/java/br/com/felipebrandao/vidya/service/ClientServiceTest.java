@@ -65,8 +65,8 @@ class ClientServiceTest {
         SankhyaField f5 = new SankhyaField("C");
         SankhyaField f6 = new SankhyaField("1");
 
-        SankhyaResponse.EntityRecord record = new SankhyaResponse.EntityRecord(f0, f1, f2, f3, f4, f5, f6);
-        SankhyaResponse.Entities pageEntities = new SankhyaResponse.Entities("1", "false", "0", List.of(record));
+        SankhyaResponse.EntityRecord entityRecord = new SankhyaResponse.EntityRecord(f0, f1, f2, f3, f4, f5, f6);
+        SankhyaResponse.Entities pageEntities = new SankhyaResponse.Entities("1", "false", "0", List.of(entityRecord));
         SankhyaResponse.ResponseBody body = new SankhyaResponse.ResponseBody(pageEntities);
         SankhyaResponse sankhyaResponse = new SankhyaResponse("loadRecords", "1", body);
 
@@ -95,10 +95,10 @@ class ClientServiceTest {
         SankhyaField f0 = new SankhyaField("10");
         SankhyaField f1 = new SankhyaField("12345678000100");
         SankhyaField f2 = new SankhyaField("Empresa Y");
-        SankhyaResponse.EntityRecord record = new SankhyaResponse.EntityRecord(f0, f1, f2, null,
+        SankhyaResponse.EntityRecord entityRecord = new SankhyaResponse.EntityRecord(f0, f1, f2, null,
                 new SankhyaField("J"), null, new SankhyaField("1"));
 
-        SankhyaResponse.Entities pageEntities = new SankhyaResponse.Entities("1", "false", "0", List.of(record));
+        SankhyaResponse.Entities pageEntities = new SankhyaResponse.Entities("1", "false", "0", List.of(entityRecord));
         SankhyaResponse sankhyaResponse = new SankhyaResponse("loadRecords", "1",
                 new SankhyaResponse.ResponseBody(pageEntities));
 
@@ -125,9 +125,9 @@ class ClientServiceTest {
 
         SankhyaField f0 = new SankhyaField("10");
         SankhyaField f2 = new SankhyaField("Client Z");
-        SankhyaResponse.EntityRecord record = new SankhyaResponse.EntityRecord(f0, null, f2, null,
+        SankhyaResponse.EntityRecord entityRecord = new SankhyaResponse.EntityRecord(f0, null, f2, null,
                 new SankhyaField("J"), null, new SankhyaField("0"));
-        SankhyaResponse.Entities pageEntities = new SankhyaResponse.Entities("1", "false", "0", List.of(record));
+        SankhyaResponse.Entities pageEntities = new SankhyaResponse.Entities("1", "false", "0", List.of(entityRecord));
         SankhyaResponse successResponse = new SankhyaResponse("loadRecords", "1",
                 new SankhyaResponse.ResponseBody(pageEntities));
 
