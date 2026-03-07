@@ -6,11 +6,15 @@ Serviço em Java com Spring Boot para cadastro e listagem de clientes no ERP San
 
 - Java 17
 - Spring Boot 3.5
-- Spring Security + JWT
-- PostgreSQL
+- Spring Security + JWT (jjwt 0.12.6)
+- Spring Validation
+- Spring Actuator
+- PostgreSQL 16
 - Flyway
 - MapStruct
-- OpenFeign
+- Lombok
+- OpenFeign (Spring Cloud)
+- Springdoc OpenAPI (Swagger UI)
 - Docker
 
 ## Pré-requisitos
@@ -34,7 +38,7 @@ cd vidya
 cp .env.example .env
 ```
 
-Edite o `.env` e preencha os valores:
+Edite o `.env` e preencha **apenas os valores sensíveis** (DB, JWT e Sankhya já têm exemplos):
 
 | Variável | Descrição |
 |---|---|
@@ -53,7 +57,7 @@ Edite o `.env` e preencha os valores:
 docker compose up -d
 ```
 
-Isso cria um container PostgreSQL na porta `5432` com o banco `vidyadb`.
+Isso cria um container PostgreSQL 16 na porta `5432` com o banco `vidyadb`.
 
 Para verificar se subiu corretamente:
 
@@ -77,10 +81,13 @@ $env:SANKHYA_PASSWORD="sua-senha-aqui"
 
 No Linux/macOS:
 ```bash
-export $(cat .env | xargs) && ./mvnw spring-boot:run
+set -a; source .env; set +a
+./mvnw spring-boot:run
 ```
 
-O Flyway criará as tabelas automaticamente ao iniciar.
+> O Flyway criará as tabelas automaticamente ao iniciar.
+
+A aplicação sobe na porta `8080` por padrão.
 
 ### 5. Acessar o Swagger
 
@@ -88,28 +95,53 @@ O Flyway criará as tabelas automaticamente ao iniciar.
 http://localhost:8080/swagger-ui.html
 ```
 
+ou diretamente:
+
+```
+http://localhost:8080/swagger-ui/index.html
+```
+
 ## Endpoints
 
 ### Autenticação
 
-| Método | Endpoint | Descrição |
-|---|---|---|
-| `POST` | `/auth/register` | Cadastrar novo usuário |
-| `POST` | `/auth/login` | Login e obter token JWT |
+| Método | Endpoint | Descrição | Status |
+|---|---|---|---|
+| `POST` | `/auth/register` | Cadastrar novo usuário | `201 Created` |
+| `POST` | `/auth/login` | Login e obter token JWT | `200 OK` |
 
 ### Clientes (requer Bearer Token)
 
-| Método | Endpoint | Descrição |
-|---|---|---|
-| `GET` | `/clients` | Listar clientes (sincroniza com Sankhya) |
-| `POST` | `/clients` | Cadastrar cliente (local + Sankhya) |
-| `GET` | `/clients/cnpj/{cnpj}` | Consultar dados do CNPJ via ReceitaWS |
+| Método | Endpoint | Descrição | Status |
+|---|---|---|---|
+| `GET` | `/clients` | Listar clientes (sincroniza com Sankhya) | `200 OK` |
+| `POST` | `/clients` | Cadastrar cliente (local + Sankhya) | `201 Created` |
+| `GET` | `/clients/cnpj/{cnpj}` | Consultar dados do CNPJ via ReceitaWS | `200 OK` |
 
 ### Cidades (requer Bearer Token)
 
-| Método | Endpoint | Descrição |
-|---|---|---|
-| `GET` | `/cities` | Listar cidades (sincroniza com Sankhya) |
+| Método | Endpoint | Descrição | Status |
+|---|---|---|---|
+| `GET` | `/cities` | Listar cidades (sincroniza com Sankhya) | `200 OK` |
+
+### Monitoramento
+
+| Endpoint | Descrição |
+|---|---|
+| `GET /actuator/health` | Status da aplicação |
+| `GET /actuator/info` | Informações da aplicação |
+| `GET /actuator/metrics` | Métricas |
+
+## Testes
+
+O projeto possui testes unitários e de integração:
+
+```bash
+./mvnw test
+```
+
+- **Unitários**: `service/`, `repository/` — cobrem `AuthService`, `ClientService`, `CityService` e seus repositórios
+- **Integração**: `integration/` — cobrem os fluxos de Auth, Client, City e chamada à ReceitaWS (WireMock)
 
 ## Parar o banco
 
@@ -122,5 +154,3 @@ Para remover os dados também:
 ```bash
 docker compose down -v
 ```
-
-
